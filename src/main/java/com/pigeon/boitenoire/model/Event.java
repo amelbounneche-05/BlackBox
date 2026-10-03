@@ -4,6 +4,10 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
+/**
+ * Entity representing a tracked system event supporting multiple metric categories 
+ * (such as errors, payment transactions, API performance calls, and connections).
+ */
 @Document(collection = "events")
 public class Event {
 
@@ -14,19 +18,26 @@ public class Event {
     private String userId;
     private LocalDateTime timestamp;
 
+    // Error-specific fields
     private String errorCode;
     private String errorMessage;
 
+    // Payment-specific fields
     private Double amount;
     private String currency;
 
+    // API call-specific fields
     private String endpoint;
     private Integer responseTimeMs;
     private Integer statusCode;
 
+    // Connection and Notification-specific fields
     private String ipAddress;
     private String notificationChannel;
 
+    /**
+     * Default constructor for entity instantiation.
+     */
     public Event() {}
 
     public String getId() { return id; }

@@ -1,0 +1,28 @@
+# =====================================================================
+# PERFORMANCE ANALYSIS REPORT - MONGODB INDEX OPTIMIZATION
+# =====================================================================
+
+## 1. Target Query
+# The query aims to retrieve and sort user activity logs.
+# Query: db.events.find({userId: 'user_001'}).sort({timestamp: -1})
+
+## 2. Baseline Performance (Before Index)
+# Execution Type: COLLSCAN (Collection Scan)
+# Metric: 100,000 documents examined.
+# Explanation: Without an index, MongoDB scans every single document 
+# in the collection sequentially, which is resource-heavy and slow.
+
+## 3. Optimization Action (Index Creation)
+# We create a compound index to pre-sort and map the data.
+# Command: db.events.createIndex({userId: 1, timestamp: -1})
+
+## 4. Optimized Performance (After Index)
+# Execution Type: IXSCAN (Index Scan)
+# Metric: Only relevant documents examined.
+# Explanation: MongoDB uses the index tree to jump straight to the 
+# specific user data, eliminating the need for full scans.
+
+## 5. Conclusion
+# The compound index completely removes full collection scans, 
+# drastically reducing CPU/memory usage and optimizing query speed.
+# =====================================================================
