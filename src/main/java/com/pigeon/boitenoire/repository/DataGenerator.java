@@ -21,11 +21,11 @@ public class DataGenerator implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         if (eventRepository.count() > 0) {
-            System.out.println("Des donnees existent deja. Generation ignoree.");
+            System.out.println("Data already exists. Generation skipped.");
             return;
         }
 
-        System.out.println("Generation de 100 000+ evenements en cours...");
+        System.out.println("Generating 100,000+ events...");
         List<Event> batch = new ArrayList<>();
         Random random = new Random();
         String[] types = {"CONNECTION", "PAYMENT", "ERROR", "API_CALL", "NOTIFICATION"};
@@ -66,7 +66,7 @@ public class DataGenerator implements CommandLineRunner {
             if (batch.size() == 5000) {
                 eventRepository.saveAll(batch);
                 batch.clear();
-                System.out.println((i + 1) + " evenements generes...");
+                System.out.println((i + 1) + " events generated...");
             }
         }
 
@@ -74,6 +74,6 @@ public class DataGenerator implements CommandLineRunner {
             eventRepository.saveAll(batch);
         }
 
-        System.out.println("Generation terminee avec succes !");
+        System.out.println("Data generation completed successfully!");
     }
 }
