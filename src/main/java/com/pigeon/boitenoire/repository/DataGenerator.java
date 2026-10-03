@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Component responsible for generating synthetic test data on application startup.
+ * Automatically seeds the database with 100,500+ events if the collection is empty.
+ */
 @Component
 public class DataGenerator implements CommandLineRunner {
 
@@ -20,6 +24,7 @@ public class DataGenerator implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        // Check if data already exists to avoid redundant generation on restart
         if (eventRepository.count() > 0) {
             System.out.println("Data already exists. Generation skipped.");
             return;
@@ -28,18 +33,22 @@ public class DataGenerator implements CommandLineRunner {
         System.out.println("Generating 100,000+ events...");
         List<Event> batch = new ArrayList<>();
         Random random = new Random();
+        
+        // Define standard types, users, and endpoints for realistic mock data distribution
         String[] types = {"CONNECTION", "PAYMENT", "ERROR", "API_CALL", "NOTIFICATION"};
         String[] users = {"user_1", "user_2", "user_3", "user_vip_1", "user_vip_2"};
         String[] endpoints = {"/api/login", "/api/messages", "/api/pay", "/api/profile"};
 
         LocalDateTime startDate = LocalDateTime.now().minusYears(1);
 
+        // Loop to generate over 100,000 synthetic events
         for (int i = 0; i < 100500; i++) {
             Event event = new Event();
             event.setEventType(types[random.nextInt(types.length)]);
             event.setUserId(users[random.nextInt(users.length)]);
             event.setTimestamp(startDate.plusMinutes(random.nextInt(525600)));
 
+            // Populate specific fields based on the chosen event type
             switch (event.getEventType()) {
                 case "ERROR":
                     event.setErrorCode("ERR_" + (500 + random.nextInt(5)));
@@ -63,6 +72,7 @@ public class DataGenerator implements CommandLineRunner {
 
             batch.add(event);
 
+            // Batch insert to optimize memory and performance (every 5000 records)
             if (batch.size() == 5000) {
                 eventRepository.saveAll(batch);
                 batch.clear();
@@ -70,6 +80,7 @@ public class DataGenerator implements CommandLineRunner {
             }
         }
 
+        // Save any remaining items in the final batch
         if (!batch.isEmpty()) {
             eventRepository.saveAll(batch);
         }
