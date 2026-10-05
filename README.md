@@ -49,16 +49,13 @@ MongoDB running locally
 
 Maven installed
 
-Running the Application & Swagger UI
+### Running the Application & Swagger UI
+1. Run the application using Maven:
+   \\\ash
+   mvn spring-boot:run
+   \\\
+2. Once the application is running (look for \Started BoitenoireApplication\), open your web browser and access Swagger UI on port **8090**:
+   > \http://localhost:8090/swagger-ui/index.html\
 
-Run the application using Maven:
-
-mvn spring-boot:run
-
-Once the application is running (look for Started BoitenoireApplication), open your web browser and access Swagger UI on port 8090:
-
-http://localhost:8090/swagger-ui/index.html
-
-License
-
+## License
 This project is developed for educational and professional optimization purposes.
