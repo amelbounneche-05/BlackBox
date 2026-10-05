@@ -40,7 +40,7 @@ src/
 
 ### Running the Application & Swagger UI
 1. Run the application using Maven:
-   \\\ash
+   \\\bash
    mvn spring-boot:run
    \\\
 2. Once the application is running (look for \Started BoitenoireApplication\), open your web browser and access Swagger UI on port **8090**:
